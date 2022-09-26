@@ -1,0 +1,13 @@
+version: "2.4"
+
+services:
+
+  blockcore-dns-agent:
+    container_name: blockcore-dns-agent
+    image: blockcore/dns:0.0.14
+    mem_limit: 1024m
+    cpus: 0.200
+    env_file:
+      - .env.sample
+    command: [ "--agent" ]  # -> run in agent mode
+    restart: unless-stopped

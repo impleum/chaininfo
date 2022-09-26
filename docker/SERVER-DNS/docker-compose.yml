@@ -1,0 +1,30 @@
+version: "2.4"
+
+services:
+  
+  blockcore-dns:
+    container_name: blockcore-dns
+    image: blockcore/dns:0.0.14
+    mem_limit: 1024m
+    cpus: 0.200
+    env_file:
+      - .env.sample
+    environment:
+      VIRTUAL_HOST: ns.blockcore.net
+      VIRTUAL_PORT: 7010
+      VIRTUAL_PROTO: http
+      VIRTUAL_NETWORK: proxy
+      LETSENCRYPT_HOST: ns.blockcore.net
+      LETSENCRYPT_EMAIL: admin@blockcore.net
+      ASPNETCORE_URLS: https://+:7010
+      Logging__LogLevel__Default: Debug
+    restart: unless-stopped
+    ports:
+      - "7010:7010"
+      - "53:53/udp"
+    networks:
+      - proxy
+networks:
+  proxy:
+    external: true
+    name: proxy
